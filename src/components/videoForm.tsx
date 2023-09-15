@@ -7,15 +7,10 @@ import { ChangeEvent, FormEvent, useMemo, useRef, useState } from "react";
 import { getFFmpeg } from "@/lib/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 import { api } from "@/lib/axios";
+import { Progress } from "./ui/progress";
 
 type Status = 'waiting' | 'converting' | 'uploading' | 'generating' | 'sucess'
 
-const statusMessages = { 
-    converting: 'Convertendo...',
-    generating: 'Transcrevendo...',
-    uploading: 'Carregando...',
-    sucess: 'Sucesso!'
-}
 
 interface VideoInputProps {
     onVideoUploaded: (id: string) => void
@@ -23,10 +18,11 @@ interface VideoInputProps {
 export function VideoForm(props: VideoInputProps) {
 
     const [videoFile, setVideoFile] = useState<File | null>(null);
-    const [status , setStatus] = useState <Status>('waiting')
+    const [status, setStatus] = useState<Status>('waiting');
+    const [loadingpercent, setLoadingpercent] = useState<number>(0);
 
     const promptInputRef = useRef<HTMLTextAreaElement>(null)
-    
+
 
     function handleFileSelected(event: ChangeEvent<HTMLInputElement>) {
         const { files } = event.currentTarget;
@@ -48,7 +44,7 @@ export function VideoForm(props: VideoInputProps) {
 
         await ffmpeg.writeFile('input.mp4', await fetchFile(video));
         ffmpeg.on('progress', progress => {
-            console.log('convert progress: ' + Math.round(progress.progress * 100));
+            setLoadingpercent(Math.round(progress.progress * 100));
         })
 
         await ffmpeg.exec([
@@ -66,7 +62,7 @@ export function VideoForm(props: VideoInputProps) {
         const data = await ffmpeg.readFile('output.mp3');
 
         const audioFileBlob = new Blob([data], { type: 'audio/mpeg' });
-        const audioFile = new File([audioFileBlob], 'audio.mp3', { type: 'audio/mpeg'});
+        const audioFile = new File([audioFileBlob], 'audio.mp3', { type: 'audio/mpeg' });
 
         console.log('Convert Finished')
         return audioFile;
@@ -87,15 +83,15 @@ export function VideoForm(props: VideoInputProps) {
 
         const data = new FormData();
 
-        data.append('file',audioFile);
+        data.append('file', audioFile);
 
         setStatus('uploading');
 
-        const response = await api.post('/videos',data);
+        const response = await api.post('/videos', data);
         const videoId = response.data.video.id;
         setStatus('generating');
 
-        await api.post(`/videos/${videoId}/transcription`,{
+        await api.post(`/videos/${videoId}/transcription`, {
             prompt
         })
 
@@ -141,19 +137,33 @@ export function VideoForm(props: VideoInputProps) {
                 <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
                 <Textarea disabled={status != 'waiting'} ref={promptInputRef} id="transcription_prompt" className="h-20 leading-relaxed resize-none" placeholder="Inclua palavras chave mencionadas no Vídeo separadas por virgula(,)" />
             </div>
-            <Button disabled={status != 'waiting'} type="submit" className="w-full">
-                {status === 'waiting'?
+
+            {status === 'waiting' ?
                 (
-                    <>
-                    Carregar Video
-                    <Upload className="w-4 h-4 ml-2" />
-                    </>
-                ):
+                    <Button disabled={status != 'waiting'} type="submit" className="w-full">
+                        Carregar Video
+                        <Upload className="w-4 h-4 ml-2" />
+                    </Button>
+                ) : status === 'generating' ?
                 (
-                    <>{statusMessages[status]}</>
+                    <Button disabled type="submit" className="w-full">
+                        Carregar Video
+                        <Upload className="w-4 h-4 ml-2" />
+                    </Button>
+                ) 
+                : status === 'sucess' ?
+                (
+                    <Button disabled type="submit" className="w-full">
+                        Sucess
+                        <Upload className="w-4 h-4 ml-2" />
+                    </Button>
+                )
+                :
+                (
+                    <Progress value={loadingpercent} />
                 )}
-                
-            </Button>
+
+
         </form>
     )
 }
