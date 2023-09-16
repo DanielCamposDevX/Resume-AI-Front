@@ -5,6 +5,7 @@ import { Button } from "../components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../components/ui/input";
 import { api } from "../lib/axios";
+import { useNavigate } from "react-router-dom";
 
 type UserT = {
     email: string,
@@ -12,6 +13,8 @@ type UserT = {
 }
 
 export function Login() {
+    const navigate = useNavigate();
+
 
     const [user, setUser] = useState<UserT>({
         email: '',
@@ -20,11 +23,12 @@ export function Login() {
 
 
     function handleLogin() {
-        api.post(`/user/login`, user)
-            .then(res => { 
-                localStorage.setItem('token',res.data.token);
-                localStorage.setItem('name',res.data.name);
-         })
+        api.post(`/login`, user)
+            .then(res => {
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('name', res.data.name);
+                navigate('/home')
+            })
             .catch(err => { alert(err) });
     }
 
@@ -54,7 +58,7 @@ export function Login() {
                         </form>
                     </CardContent>
                     <CardFooter className="flex justify-between mt-10">
-                        <Button variant="outline">Crie sua Conta</Button>
+                        <Button variant="outline" onClick={() => { navigate('/signup')}}>Crie sua Conta</Button>
                         <Button onClick={handleLogin}>Login</Button>
                     </CardFooter>
                 </Card>

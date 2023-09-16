@@ -8,26 +8,26 @@ import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
 
 type UserT = {
-    nome: string,
+    name: string,
     email: string,
-    senha: string,
-    telefone: string
+    password: string,
+    phone: string
 }
-const navigate = useNavigate();
+
 
 export function Signup() {
-
+    const navigate = useNavigate();
 
     const [user, setUser] = useState<UserT>({
-        nome: '',
+        name: '',
         email: '',
-        senha: '',
-        telefone: ''
+        password: '',
+        phone: ''
     })
 
     function handleCreate() {
-        api.post('/user/create', user)
-            .then(() => { navigate('/login') })
+        api.post('/signup', user)
+            .then(() => { navigate('/') })
             .catch(err => { alert(err) });
     }
 
@@ -52,18 +52,18 @@ export function Signup() {
                                 </div>
                                 <div className="flex flex-col space-y-1.5">
                                     <Label htmlFor="name">Senha</Label>
-                                    <Input type="password" id="senha" onChange={(e) => setUser((prevUser) => ({ ...prevUser, senha: e.target.value, }))} />
+                                    <Input type="password" id="senha" onChange={(e) => setUser((prevUser) => ({ ...prevUser, password: e.target.value, }))} />
                                 </div>
                                 <div className="flex flex-col space-y-1.5">
-                                    <Label htmlFor="name">Telefone</Label>
-                                    <Input type="telefone" id="telefone" onChange={(e) => setUser((prevUser) => ({ ...prevUser, telefone: e.target.value, }))} />
+                                    <Label htmlFor="name">telefone</Label>
+                                    <Input type="tel" id="telefone" onChange={(e) => setUser((prevUser) => ({ ...prevUser, phone: e.target.value, }))} />
                                 </div>
                             </div>
                         </form>
                     </CardContent>
                     <CardFooter className="flex justify-between mt-10">
-                        <Button variant="outline" onClick={() => navigate('/')}>Já tenho conta</Button>
-                        <Button onClick={() => { handleCreate }}>Criar conta</Button>
+                        <Button variant="outline" onClick={() => { navigate('/')}}>Já tenho conta</Button>
+                        <Button onClick={handleCreate}>Criar conta</Button>
                     </CardFooter>
                 </Card>
             </main>
