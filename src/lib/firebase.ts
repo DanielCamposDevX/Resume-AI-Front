@@ -3,12 +3,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth"
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCRaJl713hwMEILn86IHYkFcuFLc797hNY",
-    authDomain: "resume-ai-d1332.firebaseapp.com",
-    projectId: "resume-ai-d1332",
-    storageBucket: "resume-ai-d1332.appspot.com",
-    messagingSenderId: "16422219981",
-    appId: "1:16422219981:web:c32b38355952234e573984"
+    apiKey: import.meta.env.VITE_apiKey,
+    authDomain: import.meta.env.VITE_authDomain,
+    projectId: import.meta.env.VITE_projectId,
+    storageBucket: import.meta.env.VITE_storageBucket,
+    messagingSenderId: import.meta.env.VITE_messagingSenderId,
+    appId: import.meta.env.VITE_appId
 };
 
 
