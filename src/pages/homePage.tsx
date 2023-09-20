@@ -10,12 +10,33 @@ import { PromptSelect } from "../components/promptSelect"
 import { useState } from "react"
 import { useCompletion } from 'ai/react'
 import { Header } from "../components/header"
+import { auth } from "@/lib/firebase"
+import { useNavigate } from "react-router-dom"
+import { User } from "firebase/auth"
+import { api } from "@/lib/axios"
 
 
 
 export function Home() {
   const [temperature, setTemperature] = useState(0.5);
   const [videoId, setVideoId] = useState<null | string>(null);
+  const [userdata, setUserdata] = useState<User>({} as User)
+
+  const navigate = useNavigate();
+
+  useState(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        api.post('/user', { id: user.uid })
+        localStorage.setItem('uuid', user.uid)
+        setUserdata(user)
+        console.log(user)
+      }
+      else {
+        navigate('/')
+      }
+    })
+  },)
 
   const {
     input,
@@ -37,7 +58,7 @@ export function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Header userdata={userdata} setUserdata={setUserdata} />
 
       <main className="flex-1 p-6 flex gap-6">
         <div className="flex flex-col flex-1 gap-4">

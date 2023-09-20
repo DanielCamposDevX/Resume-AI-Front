@@ -33,7 +33,7 @@ export function Signup() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <Header />
+            <Header userdata={null} setUserdata={null} />
             <main className="fixed w-full h-screen flex justify-center items-center">
                 <Card className="w-[350px] ">
                     <CardHeader className="mb-5 flex justify-center items-center">

@@ -8,6 +8,7 @@ import { getFFmpeg } from "@/lib/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 import { api } from "@/lib/axios";
 import { Progress } from "./ui/progress";
+import { useNavigate } from "react-router-dom";
 
 type Status = 'waiting' | 'converting' | 'uploading' | 'generating' | 'sucess'
 
@@ -16,6 +17,7 @@ interface VideoInputProps {
     onVideoUploaded: (id: string) => void
 }
 export function VideoForm(props: VideoInputProps) {
+    const navigate = useNavigate();
 
     const [videoFile, setVideoFile] = useState<File | null>(null);
     const [status, setStatus] = useState<Status>('waiting');
@@ -90,6 +92,10 @@ export function VideoForm(props: VideoInputProps) {
         const response = await api.post('/videos', data);
         const videoId = response.data.video.id;
         setStatus('generating');
+        const uuid = localStorage.getItem('uuid')
+        const promise = api.post('/tokens', { id: uuid })
+        promise.catch((err) => { alert(err.response.data) })
+
 
         await api.post(`/videos/${videoId}/transcription`, {
             prompt
@@ -98,7 +104,7 @@ export function VideoForm(props: VideoInputProps) {
         setStatus('sucess');
 
         props.onVideoUploaded(videoId)
-        console.log(videoId);
+
     }
 
     const previewURL = useMemo(() => {
@@ -145,23 +151,23 @@ export function VideoForm(props: VideoInputProps) {
                         <Upload className="w-4 h-4 ml-2" />
                     </Button>
                 ) : status === 'generating' ?
-                (
-                    <Button disabled type="submit" className="w-full">
-                        Carregar Video
-                        <Upload className="w-4 h-4 ml-2" />
-                    </Button>
-                ) 
-                : status === 'sucess' ?
-                (
-                    <Button disabled type="submit" className="w-full">
-                        Sucess
-                        <Upload className="w-4 h-4 ml-2" />
-                    </Button>
-                )
-                :
-                (
-                    <Progress value={loadingpercent} />
-                )}
+                    (
+                        <Button disabled type="submit" className="w-full">
+                            Carregar Video
+                            <Upload className="w-4 h-4 ml-2" />
+                        </Button>
+                    )
+                    : status === 'sucess' ?
+                        (
+                            <Button disabled type="submit" className="w-full">
+                                Sucess
+                                <Upload className="w-4 h-4 ml-2" />
+                            </Button>
+                        )
+                        :
+                        (
+                            <Progress value={loadingpercent} />
+                        )}
 
 
         </form>
