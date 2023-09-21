@@ -1,5 +1,4 @@
 import { Label } from "./ui/label";
-import { Separator } from "./ui/separator";
 import { FileVideo, Upload } from "lucide-react";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
@@ -8,7 +7,7 @@ import { getFFmpeg } from "@/lib/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 import { api } from "@/lib/axios";
 import { Progress } from "./ui/progress";
-import { useNavigate } from "react-router-dom";
+import { Input } from "./ui/input";
 
 type Status = 'waiting' | 'converting' | 'uploading' | 'generating' | 'sucess'
 
@@ -17,11 +16,11 @@ interface VideoInputProps {
     onVideoUploaded: (id: string) => void
 }
 export function VideoForm(props: VideoInputProps) {
-    const navigate = useNavigate();
 
     const [videoFile, setVideoFile] = useState<File | null>(null);
     const [status, setStatus] = useState<Status>('waiting');
     const [loadingpercent, setLoadingpercent] = useState<number>(0);
+    const [videoName, setVideoName] = useState<string>('')
 
     const promptInputRef = useRef<HTMLTextAreaElement>(null)
 
@@ -98,7 +97,7 @@ export function VideoForm(props: VideoInputProps) {
 
 
         await api.post(`/videos/${videoId}/transcription`, {
-            prompt
+            prompt, videoName, userId:uuid
         })
 
         setStatus('sucess');
@@ -136,8 +135,7 @@ export function VideoForm(props: VideoInputProps) {
             </label>
 
             <input type="file" id="video" accept="video/mp4" className="sr-only" onChange={handleFileSelected} />
-
-            <Separator />
+            <Input type="text" required placeholder="Nome do Video" id="name" value={videoName} onChange={e => setVideoName(e.target.value)} />
 
             <div className="space-y-2">
                 <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
@@ -153,7 +151,7 @@ export function VideoForm(props: VideoInputProps) {
                 ) : status === 'generating' ?
                     (
                         <Button disabled type="submit" className="w-full">
-                            Carregar Video
+                            Gerando
                             <Upload className="w-4 h-4 ml-2" />
                         </Button>
                     )

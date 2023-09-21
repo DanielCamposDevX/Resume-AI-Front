@@ -15,8 +15,6 @@ import { useNavigate } from "react-router-dom"
 import { User } from "firebase/auth"
 import { api } from "@/lib/axios"
 
-
-
 export function Home() {
   const [temperature, setTemperature] = useState(0.5);
   const [videoId, setVideoId] = useState<null | string>(null);
@@ -30,7 +28,6 @@ export function Home() {
         api.post('/user', { id: user.uid })
         localStorage.setItem('uuid', user.uid)
         setUserdata(user)
-        console.log(user)
       }
       else {
         navigate('/')
