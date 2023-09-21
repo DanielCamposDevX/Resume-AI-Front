@@ -87,17 +87,17 @@ export function VideoForm(props: VideoInputProps) {
         data.append('file', audioFile);
 
         setStatus('uploading');
-
-        const response = await api.post('/videos', data);
+        const uuid = localStorage.getItem('uuid')
+        const response = await api.post(`/videos/${uuid}`, data);
         const videoId = response.data.video.id;
         setStatus('generating');
-        const uuid = localStorage.getItem('uuid')
+        
         const promise = api.post('/tokens', { id: uuid })
         promise.catch((err) => { alert(err.response.data) })
 
 
         await api.post(`/videos/${videoId}/transcription`, {
-            prompt, videoName, userId:uuid
+            prompt, videoName
         })
 
         setStatus('sucess');
