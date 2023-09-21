@@ -6,6 +6,7 @@ import { api } from "@/lib/axios";
 import { auth } from "@/lib/firebase";
 import { useNavigate } from "react-router-dom";
 import { VideoCard } from "@/components/userVideoCard";
+import { UserIcon } from "lucide-react";
 
 type video = {
     id: string;
@@ -54,7 +55,7 @@ export default function UserPage() {
                     <div className="flex gap-4 items-center mb-20">
                         <Avatar className="w-60 h-60 mr-2">
                             <AvatarImage src={user.photoURL || undefined} />
-                            <AvatarFallback>CN</AvatarFallback>
+                            <AvatarFallback><UserIcon /></AvatarFallback>
                         </Avatar>
                         <h1 className="text-3xl leading-relaxed">{user.displayName}
                             <span className="block text-xl text-muted-foreground">{user.email}</span>

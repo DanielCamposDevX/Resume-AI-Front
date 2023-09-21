@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom"
 import { LogOut } from "lucide-react"
 import { signOut } from "firebase/auth"
 import { auth } from "@/lib/firebase"
+import { UserIcon } from "lucide-react"
 
 type Userdataty = {
     setUserdata: any,
@@ -31,7 +32,7 @@ export function Header(props: Userdataty) {
             <div className="flex">
                 <Avatar className="w-7 h-7 mr-2">
                     <AvatarImage src={IconMain} />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarFallback><UserIcon /></AvatarFallback>
                 </Avatar>
                 <h1 onClick={() => navigate('/home')} className="text-xl font-bold cursor-pointer">Resume.aí</h1>
             </div>
@@ -40,11 +41,12 @@ export function Header(props: Userdataty) {
 
                     <Button variant={"outline"} onClick={() => navigate('/user')}>
                         <span className="text-sm text-muted-foreground mr-2">
-                            {props.userdata ? props.userdata.displayName : ''}
+                            {props.userdata ? props.userdata.displayName : 'Meu Perfil'}
                         </span>
                         {props.userdata?.photoURL && (
                             <Avatar className="w-7 h-7 mr-2">
                                 <AvatarImage src={props.userdata.photoURL ? props.userdata.photoURL : undefined} />
+                                <AvatarFallback><UserIcon /></AvatarFallback>
                             </Avatar>
                         )}
                     </Button>
