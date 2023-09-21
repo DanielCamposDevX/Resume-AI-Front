@@ -41,14 +41,12 @@ export function Header(props: Userdataty) {
 
                     <Button variant={"outline"} onClick={() => navigate('/user')}>
                         <span className="text-sm text-muted-foreground mr-2">
-                            {props.userdata ? props.userdata.displayName : 'Meu Perfil'}
+                            {props.userdata.displayName ? props.userdata.displayName : 'Meu Perfil'}
                         </span>
-                        {props.userdata?.photoURL && (
-                            <Avatar className="w-7 h-7 mr-2">
-                                <AvatarImage src={props.userdata.photoURL ? props.userdata.photoURL : undefined} />
-                                <AvatarFallback><UserIcon /></AvatarFallback>
-                            </Avatar>
-                        )}
+                        <Avatar className="w-7 h-7 mr-2">
+                            <AvatarImage src={props.userdata.photoURL ? props.userdata.photoURL : undefined} />
+                            <AvatarFallback><UserIcon /></AvatarFallback>
+                        </Avatar>
                     </Button>
                     <Button variant={"outline"} onClick={handlesignOut}><LogOut className="h-4 w-4" /></Button>
                 </>)
