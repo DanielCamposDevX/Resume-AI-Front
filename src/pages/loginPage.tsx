@@ -23,7 +23,7 @@ export function Login() {
 
 
     return (
-        <div className="min-h-screen flex flex-col gradient">
+        <div className="h-screen md:min-h-screen flex flex-col gradient">
             <Header userdata={null} setUserdata={1} />
             <main className="fixed w-full h-screen flex justify-center items-center">
                 <Card className="w-[350px] flex flex-col justify-center items-center border border-green-400/60 ">
