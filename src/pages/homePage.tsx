@@ -54,10 +54,10 @@ export function Home() {
   })
 
   return (
-    <div className="min-h-screen flex flex-col gradient">
+    <div className="min-h-screen w-full flex flex-col gradient">
       <Header userdata={userdata} setUserdata={setUserdata} />
 
-      <main className="flex-1 p-6 flex gap-6 md: flex-col">
+      <main className="flex-1 p-6 flex flex-col gap-6 md:flex-row mb-10 md:mb-0">
         <div className="flex flex-col flex-1 gap-4">
           <div className="grid grid-rows-2 gap-4 flex-1">
             <Textarea

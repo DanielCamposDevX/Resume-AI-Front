@@ -13,7 +13,7 @@ export function VideoCard(props:userData) {
     return (
         <Accordion type="single" collapsible className="w-full border p-3">
             <AccordionItem value="item-1" >
-                <AccordionTrigger>
+                <AccordionTrigger className='flex flex-col md:flex-row w-full'>
                     <img src={VdImage} className='h-40'/>
                     <h1 className='text-lg'>{props.name}
                         <span className='block text-sm text-muted-foreground'>{props.date.toString()}</span>
