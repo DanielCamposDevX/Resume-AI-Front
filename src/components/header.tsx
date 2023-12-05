@@ -30,7 +30,7 @@ export function Header(props: Userdataty) {
     return (
         <div className="px-6 py-3 flex items-center justify-between border-b border-green-400/60 z-50">
             <div className="flex">
-                <Avatar className="w-7 h-7 mr-2 ">
+                <Avatar className="w-7 h-7 mr-2" onClick={() => navigate('/home')}>
                     <AvatarImage src={IconMain} />
                     <AvatarFallback><UserIcon /></AvatarFallback>
                 </Avatar>
