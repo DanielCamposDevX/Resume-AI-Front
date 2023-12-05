@@ -36,3 +36,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.gradient{
+  background: rgb(12,87,0);
+  background: linear-gradient(0deg, rgba(12,87,0,1) 0%, rgba(6,6,6,1) 100%);
+}
