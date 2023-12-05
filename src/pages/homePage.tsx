@@ -54,20 +54,20 @@ export function Home() {
   })
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col gradient">
       <Header userdata={userdata} setUserdata={setUserdata} />
 
       <main className="flex-1 p-6 flex gap-6">
         <div className="flex flex-col flex-1 gap-4">
           <div className="grid grid-rows-2 gap-4 flex-1">
             <Textarea
-              className="resize-none p-5 leading-relaxed"
+              className="resize-none p-5 leading-relaxed bg-gray-950/70 border-green-400/50"
               placeholder="Inclua o prompt para IA..."
               value={input}
               onChange={handleInputChange}
             />
             <Textarea
-              className="resize-none p-5 leading-relaxed"
+              className="resize-none p-5 leading-relaxed bg-gray-950/70 border-green-400/50"
               placeholder="Resultado gerado pela IA..."
               readOnly
               value={completion}
@@ -95,7 +95,7 @@ export function Home() {
             <div className="space-y-2">
               <Label>Modelo</Label>
               <Select defaultValue="gpt3.5" disabled>
-                <SelectTrigger>
+                <SelectTrigger className="bg-gray-950/70 border-green-400/60">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

@@ -29,8 +29,8 @@ export function Header(props: Userdataty) {
 
     return (
         <div className="px-6 py-3 flex items-center justify-between border-b border-green-400/60 z-50">
-            <div className="flex">
-                <Avatar className="w-7 h-7 mr-2">
+            <div className="flex ">
+                <Avatar className="w-7 h-7 mr-2 ">
                     <AvatarImage src={IconMain} />
                     <AvatarFallback><UserIcon /></AvatarFallback>
                 </Avatar>
@@ -39,7 +39,7 @@ export function Header(props: Userdataty) {
             <div className="flex items-center gap-3">
                 {props.userdata && (<>
 
-                    <Button variant={"outline"} onClick={() => navigate('/user')}>
+                    <Button variant={"outline"} className="bg-gray-950/70 border-green-400/50" onClick={() => navigate('/user')}>
                         <span className="text-sm text-muted-foreground mr-2">
                             {props.userdata.displayName ? props.userdata.displayName : 'Meu Perfil'}
                         </span>
@@ -48,14 +48,16 @@ export function Header(props: Userdataty) {
                             <AvatarFallback><UserIcon /></AvatarFallback>
                         </Avatar>
                     </Button>
-                    <Button variant={"outline"} onClick={handlesignOut}><LogOut className="h-4 w-4" /></Button>
+                    <Button variant={"outline"} onClick={handlesignOut} className="bg-gray-950/70 border-green-400/50">
+                        <LogOut className="h-4 w-4" />
+                    </Button>
                 </>)
                 }
 
                 <Separator orientation="vertical" className="h-6" />
 
                 <a href="https://www.linkedin.com/in/daniel-campos-e-silva-37ab48238/">
-                    <Button variant={"outline"}>
+                    <Button variant={"outline"} className="bg-gray-950/70 border-green-400/50">
                         <span className="text-sm text-muted-foreground mr-2">
                             Linkedin
                         </span>
@@ -64,7 +66,7 @@ export function Header(props: Userdataty) {
                 </a>
 
                 <a href="https://github.com/DanielCamposDevX">
-                    <Button variant={"outline"}>
+                    <Button variant={"outline"} className="bg-gray-950/70 border-green-400/50">
                         <Github className="w-4 h-4 mr-2" />
                         Github
                     </Button>

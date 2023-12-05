@@ -115,11 +115,11 @@ export function VideoForm(props: VideoInputProps) {
     }, [videoFile])
 
     return (
-        <form onSubmit={handleUploadVideo} className="space-y-6">
+        <form onSubmit={handleUploadVideo} className="space-y-6 ">
 
             <label
                 htmlFor="video"
-                className="relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
+                className="relative border flex rounded-md aspect-video cursor-pointer border-dashed border-green-400/50 text-sm flex-col gap-2 items-center justify-center text-muted-foreground bg-gray-950/90 hover:bg-primary/10"
             >
                 {previewURL ? (
                     <video src={previewURL} controls={false} className="pointer-events-none absolute inset-0" />
@@ -135,11 +135,11 @@ export function VideoForm(props: VideoInputProps) {
             </label>
 
             <input type="file" id="video" accept="video/mp4" className="sr-only" onChange={handleFileSelected} />
-            <Input type="text" required placeholder="Nome do Video" id="name" value={videoName} onChange={e => setVideoName(e.target.value)} />
+            <Input type="text"  className="bg-gray-950/70 border-green-400/50" required placeholder="Nome do Video" id="name" value={videoName} onChange={e => setVideoName(e.target.value)} />
 
             <div className="space-y-2">
                 <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
-                <Textarea disabled={status != 'waiting'} ref={promptInputRef} id="transcription_prompt" className="h-20 leading-relaxed resize-none" placeholder="Inclua palavras chave mencionadas no Vídeo separadas por virgula(,)" />
+                <Textarea disabled={status != 'waiting'} ref={promptInputRef} id="transcription_prompt" className="h-20 leading-relaxed resize-none bg-gray-950/70 border-green-400/60" placeholder="Inclua palavras chave mencionadas no Vídeo separadas por virgula(,)" />
             </div>
 
             {status === 'waiting' ?

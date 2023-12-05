@@ -31,7 +31,7 @@ export function PromptSelect(props: PromptSelectProps) {
     }
     return (
         <Select onValueChange={handlePrompSelected}>
-            <SelectTrigger>
+            <SelectTrigger className="bg-gray-950/70 border-green-400/60">
                 <SelectValue placeholder="Selecione um prompt..." />
             </SelectTrigger>
             <SelectContent>
