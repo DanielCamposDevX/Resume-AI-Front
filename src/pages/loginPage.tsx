@@ -3,12 +3,9 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../compone
 import { Button } from "../components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from 'react-icons/fc'
-
-import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth"
-import { auth } from "@/lib/firebase";
-import { api } from "@/lib/axios";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { handleGoogleSignIn, handleSimpleLogin } from "@/services/loginHandlers";
 
 export function Login() {
     const navigate = useNavigate();
@@ -19,31 +16,8 @@ export function Login() {
     })
 
 
-    function handleSimpleLogin() {
-        signInWithEmailAndPassword(auth, user.email, user.pass)
-            .then((user) => {
-                api.post('/user', { id: user.user.uid })
-                localStorage.setItem('token', user.user.uid)
-                navigate('/home')
-            })
-            .catch((error) => {
-                alert(error)
-            })
-    }
 
-    function handleGoogleSignIn() {
-        const provider = new GoogleAuthProvider();
 
-        signInWithPopup(auth, provider)
-            .then((user) => {
-                api.post('/user', { id: user.user.uid })
-                localStorage.setItem('token', user.user.uid)
-                navigate('/home')
-            })
-            .catch((error) => {
-                alert(error)
-            })
-    }
 
 
 
@@ -65,9 +39,9 @@ export function Login() {
                         </div>
                     </CardContent>
                     <CardFooter className="flex flex-col gap-3 justify-between mt-10">
-                        <Button className="w-full" variant={"secondary"} onClick={handleSimpleLogin}>Login</Button>
+                        <Button className="w-full" variant={"secondary"} onClick={() => handleSimpleLogin(navigate, user)}>Login</Button>
                         <Button className="w-full" onClick={() => navigate('/signup')}>Crie sua Conta</Button>
-                        <Button className="w-full" variant={"outline"} onClick={handleGoogleSignIn}><FcGoogle className="h-5 w-5 mr-2" />Login com Google</Button>
+                        <Button className="w-full" variant={"outline"} onClick={() => handleGoogleSignIn(navigate)}><FcGoogle className="h-5 w-5 mr-2" />Login com Google</Button>
                     </CardFooter>
                 </Card>
             </main>
